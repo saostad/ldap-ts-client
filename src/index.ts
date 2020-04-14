@@ -38,6 +38,10 @@ export class Client {
     this.bind();
   }
 
+  public isConnected = (): boolean => {
+    return this.client.connected;
+  };
+
   /** @return a connected ldap client that is useful for use flexibility of [ldap.js](http://ldapjs.org/) directly. */
   public bind = async (): Promise<ldap.Client> => {
     this.logger?.trace("bind()");
