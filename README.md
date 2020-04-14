@@ -1,4 +1,4 @@
-# Active directory connection
+# Type-safe Promise base LDAP Client
 
 LDAP Client to do low level promise base interaction with ldap server
 
@@ -27,7 +27,7 @@ const client = new LdapClient(config);
 client.unbind();
 ```
 
-## API DOC
+## API Documentation
 
 for full API documentation look at [API Website](https://saostad.github.io/ldap-ts-client/classes/_index_.client.html)
 
