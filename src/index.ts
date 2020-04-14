@@ -22,7 +22,7 @@ interface QueryFnInput {
 }
 
 /** @description this is a class to provide low level promise base interaction with ldap server */
-export class AdClient {
+export class Client {
   private config: IClientConfig;
   private client!: ldap.Client;
   private logger?: Logger;
