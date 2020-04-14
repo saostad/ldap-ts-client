@@ -1,18 +1,18 @@
 {
-  "name": "create-ts-starter",
-  "version": "2.1.2",
-  "description": "Typescript Opinionated Starter / Boilerplate",
+  "name": "ldap-ts-client",
+  "version": "0.0.1",
+  "description": "Type-safe LDAP client written in typescript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/saostad/node-typescript-starter.git"
+    "url": "https://github.com/saostad/ldap-ts-client.git"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": "bin/setup",
   "scripts": {
     "format": "prettier --check \"src/**/*.ts\" --write",
     "lint": "eslint --ext \".ts,.js\" src --quiet",
     "gen-docs": "typedoc",
+    "postgen-docs": "node ./github/github.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "tsc": "tsc",
@@ -23,10 +23,10 @@
     "start": "npm-run-all -p dev tsc:watch"
   },
   "keywords": [
-    "node",
+    "ldap",
     "typescript",
-    "boilerplate",
-    "starter"
+    "client",
+    "active directory"
   ],
   "author": "Saeid Ostad",
   "license": "MIT",
@@ -56,6 +56,8 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "fast-node-logger": "^1.3.4"
+    "fast-node-logger": "^1.3.4",
+    "@types/ldapjs": "^1.0.7",
+    "ldapjs": "^1.0.2"
   }
 }

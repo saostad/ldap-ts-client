@@ -1,64 +1,95 @@
-# node typescript starter
+# Active directory connection
 
-### An opinionated combination of my favorite tools for starting a node project
+LDAP Client to do low level promise base interaction with ldap server
 
-# Quick Start
+- Promise based functions
+- type-safe with [Typescript](https://www.typescriptlang.org/)
 
-`npx create-ts-starter PROJECT_NAME Vscode`
+## How to use it:
 
-OR
+- `npm i ldap-ts-client`
 
-`npm init ts-starter PROJECT_NAME VSCode`
+```ts
+import { IClientConfig, LdapClient } from "ldap-ts-client";
 
-### notice: you can ignore last param VSCode and open the project in your favorite editor manually!
+const config: IClientConfig = {
+  url: "ldap://Domain.com" /** Domain name here */,
+  bindDN: "{USER_NAME}" /** user name to connect to AD server */,
+  secret: "{PASSWORD}" /** password for account */,
+  baseDN: "{ROOT_OF_TREE}" /** root of tree that want to query */,
+};
 
-OR
+const client = new LdapClient(config);
 
-`git clone --depth 1 https://github.com/saostad/node-typescript-starter.git PROJECT_NAME`
+// do something with functionalities
 
-`npm install`
+// always free-Up after you done the job!
+client.unbind();
+```
 
-`npm start`
+## API DOC
 
-## Other Commands
+for full API documentation look at [API Website](https://saostad.github.io/ldap-ts-client/classes/_index_.client.html)
 
-- to run tests: `npm t`
-- to run tests in watch mode: `npm run test:watch`
-- to format with prettier: `npm run format`
-- to lint with eslint: `npm run lint`
-- to generate documentations website: `npm run gen-docs`
-- to run in production: `npm run prod`
-- to run in docker environment in `docker-compose up`
+## functionalities:
 
-## Functionalities
+#### async queryAttributes()
 
-- dies at unhandled errors (this is very good strategy for production - docker will take care of restart the program after exit)
-- pre-configured for work with VSCode debugger
-- pre-configured to publish or create module
-- pre-configured to run tests with jest
-- pre-configured to load environment variables from .env file
-- pre-configured to run in docker environment
-- pre-configured to log in logs in root folder with default log rotation
-- pre-configured to generate api documentations in `docs` folder of root project directory
-- type-def for process.env variables
-- restart the process after modifying ts files
+```ts
+/** get displayName of all users */
+const users = await client.queryAttributes({
+  options: {
+    filter:
+      "(&(|(objectClass=user)(objectClass=person))(!(objectClass=computer))(!(objectClass=group)))",
+    attributes: ["displayName"],
+    scope: "sub",
+    paged: true,
+  },
+});
 
-## Powered By:
+// always unbind after finish the operation to prevent memory leak
+client.unbind();
+```
 
-- [x] [typescript](https://github.com/Microsoft/TypeScript)
-- [x] [fast-node-logger](https://github.com/saostad/fast-node-logger)
-- [x] [jest](https://github.com/facebook/jest)
-- [x] [eslint](https://github.com/eslint/eslint)
-- [x] [prettier](https://github.com/prettier/prettier)
-- [x] [TypeDoc](https://github.com/TypeStrong/TypeDoc)
-- [x] [npm-run-all](https://github.com/mysticatea/npm-run-all)
-- [x] [nodemon](https://github.com/remy/nodemon)
-- [x] [Docker](https://www.docker.com/)
+### Advance Uses:
 
-## TODO:
+#### async query() (raw search to provided full flexibility)
 
-- [ ] add error handling [best practices](https://www.youtube.com/watch?v=62ZRPJkHOX0&list=WL&index=10&t=0s)
-- [ ] add pm2 for process monitoring in development
-- [ ] add docker restart policy in make sure it restart in production
-- [ ] remove all startup overhead to have fastest start up
-- [ ] top-level await support
+```ts
+/** get displayName and distinguished name  of empty groups */
+const groups = await client.query({
+  options: {
+    filter: "(&(objectClass=group)(!(member=*)))",
+    attributes: ["displayName", "dn"],
+    scope: "sub",
+    paged: true,
+  },
+});
+
+// always unbind after finish the operation to prevent memory leak
+client.unbind();
+```
+
+#### async bind() to access underlying api. returns a connected [ldap.js](http://ldapjs.org/) client.
+
+#### NOTICE: lpad.js is using node EventEmitters not ES6 Promises
+
+```ts
+client.bind().then((client) => {
+  client.search(this.config.baseDN, opts, (err, res) => {
+    if (err) {
+      reject(err);
+    }
+    res.on("searchEntry", (entry) => {});
+    res.on("error", (err) => {});
+    res.on("end", function (result) {
+      client.unbind();
+    });
+  });
+});
+```
+
+## TODO
+
+- [ ] remove dependency to [ldap.js](http://ldapjs.org/) package
+- [ ] add Windows Integrated Authentication [Kerberos](https://github.com/mongodb-js/kerberos)
