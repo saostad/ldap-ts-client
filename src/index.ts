@@ -43,7 +43,7 @@ export class Client {
   };
 
   /** @return a connected ldap client that is useful for use flexibility of [ldap.js](http://ldapjs.org/) directly. */
-  public bind = async (): Promise<ldap.Client> => {
+  public async bind(): Promise<ldap.Client> {
     this.logger?.trace("bind()");
     return new Promise((resolve, reject) => {
       this.client.bind(this.config.bindDN, this.config.secret, (err) => {
@@ -54,12 +54,20 @@ export class Client {
         resolve(this.client);
       });
     });
-  };
+  }
 
-  public unbind = () => {
+  public async unbind() {
     this.logger?.trace("unbind()");
-    this.client.unbind();
-  };
+    return new Promise((resolve, reject) => {
+      this.client.unbind((err) => {
+        if (err) {
+          reject(err);
+        }
+
+        resolve();
+      });
+    });
+  }
 
   private async connect() {
     this.logger?.trace("connect()");

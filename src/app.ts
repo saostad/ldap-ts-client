@@ -19,5 +19,5 @@ import { Client, IClientConfig } from "./index";
     },
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
-  client.unbind();
+  await client.unbind();
 })();
