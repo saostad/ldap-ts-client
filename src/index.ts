@@ -35,7 +35,6 @@ export class Client {
       ...this.config,
       log: this.config.logger,
     });
-    this.bind();
   }
 
   public isConnected = (): boolean => {
@@ -56,7 +55,7 @@ export class Client {
     });
   }
 
-  public async unbind() {
+  public async unbind(): Promise<void> {
     this.logger?.trace("unbind()");
     return new Promise((resolve, reject) => {
       this.client.unbind((err) => {
