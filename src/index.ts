@@ -83,7 +83,10 @@ export class Client {
     });
   }
 
-  /** @description raw search returns just attributes */
+  /** @description raw search returns just attributes
+   *
+   * // TODO: add Generic type for return data
+   */
   public async queryAttributes({
     options,
     controls,
