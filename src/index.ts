@@ -82,12 +82,14 @@ export class Client {
     this.logger?.trace("query()");
     await this.connect();
 
-    return search({
+    const data = await search({
       client: this.client,
       base: base ?? this.config.baseDN,
       options,
       controls,
     });
+    await this.unbind();
+    return data;
   }
 
   /** @description raw search returns just attributes
@@ -108,7 +110,7 @@ export class Client {
       options,
       controls,
     });
-
+    await this.unbind();
     return data.map((entry) => entry.object);
   }
 }
