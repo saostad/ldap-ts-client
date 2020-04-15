@@ -88,7 +88,6 @@ export class Client {
       options,
       controls,
     });
-    await this.unbind();
     return data;
   }
 
@@ -110,7 +109,6 @@ export class Client {
       options,
       controls,
     });
-    await this.unbind();
     return data.map((entry) => entry.object);
   }
 }
