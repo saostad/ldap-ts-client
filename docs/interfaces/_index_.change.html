@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>QueryFnInput | ldap-ts-client</title>
+	<title>Change | ldap-ts-client</title>
 	<meta name="description" content="Documentation for ldap-ts-client">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,21 +59,34 @@
 					<a href="../modules/_index_.html">&quot;index&quot;</a>
 				</li>
 				<li>
-					<a href="_index_.queryfninput.html">QueryFnInput</a>
+					<a href="_index_.change.html">Change</a>
 				</li>
 			</ul>
-			<h1>Interface QueryFnInput</h1>
+			<h1>Interface Change</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A Change object maps to the LDAP protocol of a modify change, and requires you to set the operation and modification. The operation is a string, and must be one of:</p>
+						<ul>
+							<li>replace: Replaces the attribute referenced in modification. If the modification has no values, it is equivalent to a delete.</li>
+							<li>add: Adds the attribute value(s) referenced in modification. The attribute may or may not already exist.</li>
+							<li>delete: Deletes the attribute (and all values) referenced in modification.</li>
+						</ul>
+					</div>
+					<p>modification is just a plain old JS object with the values you want.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">QueryFnInput</span>
+						<span class="target">Change</span>
 					</li>
 				</ul>
 			</section>
@@ -84,9 +97,8 @@
 						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.queryfninput.html#base" class="tsd-kind-icon">base</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.queryfninput.html#controls" class="tsd-kind-icon">controls</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.queryfninput.html#options" class="tsd-kind-icon">options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.change.html#modification" class="tsd-kind-icon">modification</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_index_.change.html#operation" class="tsd-kind-icon">operation</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,32 +107,30 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="base" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> base</h3>
-					<div class="tsd-signature tsd-kind-icon">base<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="modification" class="tsd-anchor"></a>
+					<h3>modification</h3>
+					<div class="tsd-signature tsd-kind-icon">modification<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/saostad/ldap-ts-client/blob/5992391/src/index.ts#L38">src/index.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/saostad/ldap-ts-client/blob/5992391/src/index.ts#L26">src/index.ts:26</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="controls" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> controls</h3>
-					<div class="tsd-signature tsd-kind-icon">controls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Control</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Control</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/saostad/ldap-ts-client/blob/5992391/src/index.ts#L37">src/index.ts:37</a></li>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></h5>
+							</li>
 						</ul>
-					</aside>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="options" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> options</h3>
-					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SearchOptions</span></div>
+					<a name="operation" class="tsd-anchor"></a>
+					<h3>operation</h3>
+					<div class="tsd-signature tsd-kind-icon">operation<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"add"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"delete"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"replace"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/saostad/ldap-ts-client/blob/5992391/src/index.ts#L36">src/index.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/saostad/ldap-ts-client/blob/5992391/src/index.ts#L25">src/index.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,9 +161,21 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.addfninput.html" class="tsd-kind-icon">Add<wbr>FnInput</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.change.html" class="tsd-kind-icon">Change</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_index_.change.html#modification" class="tsd-kind-icon">modification</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+								<a href="_index_.change.html#operation" class="tsd-kind-icon">operation</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.comparefninput.html" class="tsd-kind-icon">Compare<wbr>FnInput</a>
 					</li>
@@ -175,24 +197,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.modifyfninput.html" class="tsd-kind-icon">Modify<wbr>FnInput</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_index_.queryfninput.html" class="tsd-kind-icon">Query<wbr>FnInput</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_index_.queryfninput.html#base" class="tsd-kind-icon">base</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_index_.queryfninput.html#controls" class="tsd-kind-icon">controls</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_index_.queryfninput.html#options" class="tsd-kind-icon">options</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 				</ul>
 			</nav>
 		</div>
