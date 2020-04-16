@@ -33,8 +33,24 @@ import { Client, IClientConfig } from "./index";
   //   sn: "testUser2",
   //   objectClass: "organizationalPerson",
   // };
-  // const addResult = client.add({ entry, dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local" });
+  // const addResult = await client.add({
+  //   entry,
+  //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
+  // });
   // console.log(addResult);
+
+  // const modifyResult = await client.modify({
+  //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
+  //   changes: [
+  //     {
+  //       operation: "add",
+  //       modification: {
+  //         mail: "mymail@mydomain.com",
+  //       },
+  //     },
+  //   ],
+  // });
+  // console.log(`File: app.ts,`, `Line: 53 => `, modifyResult);
 
   // const compared = await client.compare({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
@@ -43,14 +59,14 @@ import { Client, IClientConfig } from "./index";
   // });
   // console.log(`File: app.ts,`, `Line: 22 => `, compared);
 
-  // const data = await client.queryAttributes({
-  //   options: {
-  //     attributes: ["*"],
-  //     filter: "(&(objectClass=organizationalPerson)(cn=test*))",
-  //     scope: "sub",
-  //   },
-  // });
-  // console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
+  const data = await client.queryAttributes({
+    options: {
+      attributes: ["*"],
+      filter: "(&(objectClass=organizationalPerson)(cn=test*))",
+      scope: "sub",
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
 
   await client.unbind();
 })();
