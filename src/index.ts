@@ -24,7 +24,7 @@ modification is just a plain old JS object with the values you want. */
 export interface ModifyChange<T = any> {
   operation: "add" | "delete" | "replace";
   modification: {
-    [key in keyof T]: any;
+    [key in keyof Partial<T>]: any;
   };
 }
 interface ModifyFnInput {
@@ -37,18 +37,19 @@ interface QueryFnInput {
   controls?: Control | Control[];
   base?: string;
 }
-interface Entry {
+
+interface AddEntry<T> {
   [key: string]: string | string[];
 }
-interface AddFnInput {
-  entry: Entry;
+interface AddFnInput<T = any> {
+  entry: AddEntry<T>;
   dn: string;
   controls?: any;
 }
-interface CompareFnInput {
+interface CompareFnInput<T = any> {
   dn: string;
   controls?: any;
-  attribute: string;
+  attribute: keyof Partial<T>;
   value: string;
 }
 interface DelFnInput {
