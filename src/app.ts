@@ -9,15 +9,48 @@ import { Client, IClientConfig } from "./index";
     secret: process.env.AD_Pass ?? "",
     baseDN: "DC=ki,DC=local",
   };
-
   const client = new Client(options);
-  const data = await client.queryAttributes({
-    options: {
-      attributes: ["*"],
-      filter: "(&(userPrincipalName=sostad*))",
-      scope: "sub",
-    },
-  });
-  console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
+
+  // const delResult = await client.del({
+  //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
+  // });
+  // console.log(`File: app.ts,`, `Line: 18 => `, delResult);
+
+  // const { value } = await client.extendedOp({
+  //   oid: "1.3.6.1.4.1.4203.1.11.3",
+  //   value: "",
+  // });
+  // console.log(`File: app.ts,`, `Line: 18 => `, value);
+
+  // const modifyDnResult = await client.modifyDn({
+  //   dn: "CN=testUser3,OU=Users,OU=KII,DC=ki,DC=local",
+  //   newDn: "CN=testUser4,OU=Users,OU=KII,DC=ki,DC=local",
+  // });
+  // console.log(`File: app.ts,`, `Line: 18 => `, modifyDnResult);
+
+  // const entry = {
+  //   cn: "testUser2",
+  //   sn: "testUser2",
+  //   objectClass: "organizationalPerson",
+  // };
+  // const addResult = client.add({ entry, dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local" });
+  // console.log(addResult);
+
+  // const compared = await client.compare({
+  //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
+  //   attribute: "cn",
+  //   value: "testUser2",
+  // });
+  // console.log(`File: app.ts,`, `Line: 22 => `, compared);
+
+  // const data = await client.queryAttributes({
+  //   options: {
+  //     attributes: ["*"],
+  //     filter: "(&(objectClass=organizationalPerson)(cn=test*))",
+  //     scope: "sub",
+  //   },
+  // });
+  // console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
+
   await client.unbind();
 })();

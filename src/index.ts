@@ -21,6 +21,35 @@ interface QueryFnInput {
   base?: string;
 }
 
+interface Entry {
+  [key: string]: string | string[];
+}
+interface AddFnInput {
+  entry: Entry;
+  dn: string;
+  controls?: any;
+}
+interface CompareFnInput {
+  dn: string;
+  controls?: any;
+  attribute: string;
+  value: string;
+}
+interface DelFnInput {
+  dn: string;
+  controls?: any;
+}
+interface ExtendedOpFnInput {
+  oid: string;
+  value: string;
+  controls?: any;
+}
+interface ModifyDnFnInput {
+  dn: string;
+  newDn: string;
+  controls?: any;
+}
+
 /** @description this is a class to provide low level promise base interaction with ldap server */
 export class Client {
   private config: IClientConfig;
@@ -37,6 +66,7 @@ export class Client {
     });
   }
 
+  /** connection status */
   public isConnected = (): boolean => {
     return this.client.connected;
   };
@@ -55,6 +85,7 @@ export class Client {
     });
   }
 
+  /** unbind connection and free-up memory */
   public async unbind(): Promise<void> {
     this.logger?.trace("unbind()");
     return new Promise((resolve, reject) => {
@@ -110,5 +141,162 @@ export class Client {
       controls,
     });
     return data.map((entry) => entry.object);
+  }
+  /** Performs an add operation against the LDAP server.
+   * @description Allows you to add an entry (which is just a plain JS object)
+   */
+  public async add({ entry, dn, controls }: AddFnInput): Promise<boolean> {
+    this.logger?.trace("add()");
+    await this.connect();
+    return new Promise((resolve, reject) => {
+      if (controls) {
+        this.client.add(dn, entry, controls, function addCallback(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      } else {
+        this.client.add(dn, entry, function addCallback(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      }
+    });
+  }
+
+  /** Performs an LDAP compare operation with the given attribute and value against the entry referenced by dn. */
+  public async compare({
+    dn,
+    controls,
+    attribute,
+    value,
+  }: CompareFnInput): Promise<boolean | undefined> {
+    this.logger?.trace("compare()");
+    await this.connect();
+    return new Promise((resolve, reject) => {
+      if (controls) {
+        this.client.compare(
+          dn,
+          attribute,
+          value,
+          controls,
+          function compareCallback(err, matched) {
+            if (err) {
+              reject(err);
+            }
+            resolve(matched);
+          },
+        );
+      } else {
+        this.client.compare(dn, attribute, value, function compareCallback(
+          err,
+          matched,
+        ) {
+          if (err) {
+            reject(err);
+          }
+          resolve(matched);
+        });
+      }
+    });
+  }
+
+  /** Deletes an entry from the LDAP server. */
+  public async del({ dn, controls }: DelFnInput): Promise<boolean> {
+    this.logger?.trace("del()");
+    await this.connect();
+    return new Promise((resolve, reject) => {
+      if (controls) {
+        this.client.del(dn, controls, function delCallback(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      } else {
+        this.client.del(dn, function delCallback(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      }
+    });
+  }
+
+  /**
+   * @description Performs an LDAP extended operation against an LDAP server.
+   * @example
+   * const {value} = await client.extendedOp('1.3.6.1.4.1.4203.1.11.3');
+   * console.log('whois: ' + value);
+   */
+  public async extendedOp({
+    oid,
+    value,
+    controls,
+  }: ExtendedOpFnInput): Promise<{ value: string; res: any }> {
+    this.logger?.trace("extendedOp()");
+    await this.connect();
+    return new Promise((resolve, reject) => {
+      if (controls) {
+        this.client.exop(oid, value, controls, function extendedOpCallback(
+          err,
+          value,
+          res,
+        ) {
+          if (err) {
+            reject(err);
+          }
+          resolve({ value, res });
+        });
+      } else {
+        this.client.exop(oid, value, function extendedOpCallback(
+          err,
+          value,
+          res,
+        ) {
+          if (err) {
+            reject(err);
+          }
+          resolve({ value, res });
+        });
+      }
+    });
+  }
+
+  /**
+   * @description Performs an LDAP modifyDN (rename) operation against an entry in the LDAP server. A couple points with this client API:
+   * - There is no ability to set "keep old dn." It's always going to flag the old dn to be purged.
+   * - The client code will automatically figure out if the request is a "new superior" request ("new superior" means move to a different part of the tree, as opposed to just renaming the leaf).
+   */
+  public async modifyDn({
+    dn,
+    newDn,
+    controls,
+  }: ModifyDnFnInput): Promise<boolean> {
+    this.logger?.trace("modifyDn()");
+    await this.connect();
+    return new Promise((resolve, reject) => {
+      if (controls) {
+        this.client.modifyDN(dn, newDn, controls, function modifyDnCallback(
+          err,
+        ) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      } else {
+        this.client.modifyDN(dn, newDn, function modifyDNCallback(err) {
+          if (err) {
+            reject(err);
+          }
+          resolve(true);
+        });
+      }
+    });
   }
 }
