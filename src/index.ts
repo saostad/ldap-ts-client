@@ -21,15 +21,15 @@ export interface IClientConfig extends ldap.ClientOptions {
  * - delete: Deletes the attribute (and all values) referenced in modification.
 
 modification is just a plain old JS object with the values you want. */
-interface Change {
+export interface ModifyChange<T = any> {
   operation: "add" | "delete" | "replace";
   modification: {
-    [key: string]: any;
+    [key in keyof T]: any;
   };
 }
 interface ModifyFnInput {
   dn: string;
-  changes: Change[];
+  changes: ModifyChange[];
   controls?: any;
 }
 interface QueryFnInput {
