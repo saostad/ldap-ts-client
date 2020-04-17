@@ -40,7 +40,7 @@ import { User } from "./generated/interfaces/User";
   // });
   // console.log(addResult);
 
-  // const modifyResult = await client.modify<User>({
+  // const modifyAttributeResult = await client.modifyAttribute<User>({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
   //   changes: [
   //     {
@@ -51,7 +51,7 @@ import { User } from "./generated/interfaces/User";
   //     },
   //   ],
   // });
-  // console.log(`File: app.ts,`, `Line: 53 => `, modifyResult);
+  // console.log(`File: app.ts,`, `Line: 53 => `, modifyAttributeResult);
 
   // const compared = await client.compare<User>({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",

@@ -27,7 +27,7 @@ export interface ModifyChange<T = any> {
     [key in keyof Partial<T>]: any;
   };
 }
-interface ModifyFnInput<T> {
+interface ModifyAttributeFnInput<T> {
   dn: string;
   changes: ModifyChange<T>[];
   controls?: any;
@@ -337,14 +337,14 @@ export class Client {
     });
   }
 
-  /** Performs an LDAP modify operation against the existing LDAP entity. This API requires you to pass in a Change object.
+  /** Performs an LDAP modify operation against attributes of the existing LDAP entity. This API requires you to pass in a Change object.
    */
-  public async modify<T = any>({
+  public async modifyAttribute<T = any>({
     dn,
     changes,
     controls,
-  }: ModifyFnInput<T>): Promise<boolean> {
-    this.logger?.trace("modify()");
+  }: ModifyAttributeFnInput<T>): Promise<boolean> {
+    this.logger?.trace("modifyAttribute()");
     await this.connect();
     return new Promise((resolve, reject) => {
       if (controls) {
