@@ -38,10 +38,10 @@ for full API documentation look at [API Website](https://saostad.github.io/ldap-
 ```ts
 /** get displayName of all users */
 const users = await client.queryAttributes({
+  attributes: ["displayName"],
   options: {
     filter:
       "(&(|(objectClass=user)(objectClass=person))(!(objectClass=computer))(!(objectClass=group)))",
-    attributes: ["displayName"],
     scope: "sub",
     paged: true,
   },
@@ -58,9 +58,9 @@ client.unbind();
 ```ts
 /** get displayName and distinguished name  of empty groups */
 const groups = await client.query({
+  attributes: ["displayName", "dn"],
   options: {
     filter: "(&(objectClass=group)(!(member=*)))",
-    attributes: ["displayName", "dn"],
     scope: "sub",
     paged: true,
   },

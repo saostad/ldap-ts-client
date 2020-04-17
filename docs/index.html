@@ -105,10 +105,10 @@ client.unbind();</code></pre>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">/** get displayName of all users */</span>
 <span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> client.queryAttributes({
+  attributes: [<span class="hljs-string">"displayName"</span>],
   options: {
     filter:
       <span class="hljs-string">"(&amp;(|(objectClass=user)(objectClass=person))(!(objectClass=computer))(!(objectClass=group)))"</span>,
-    attributes: [<span class="hljs-string">"displayName"</span>],
     scope: <span class="hljs-string">"sub"</span>,
     paged: <span class="hljs-literal">true</span>,
   },
@@ -124,9 +124,9 @@ client.unbind();</code></pre>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">/** get displayName and distinguished name  of empty groups */</span>
 <span class="hljs-keyword">const</span> groups = <span class="hljs-keyword">await</span> client.query({
+  attributes: [<span class="hljs-string">"displayName"</span>, <span class="hljs-string">"dn"</span>],
   options: {
     filter: <span class="hljs-string">"(&amp;(objectClass=group)(!(member=*)))"</span>,
-    attributes: [<span class="hljs-string">"displayName"</span>, <span class="hljs-string">"dn"</span>],
     scope: <span class="hljs-string">"sub"</span>,
     paged: <span class="hljs-literal">true</span>,
   },

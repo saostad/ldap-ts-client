@@ -32,12 +32,13 @@ interface ModifyFnInput<T> {
   changes: ModifyChange<T>[];
   controls?: any;
 }
-interface QueryFnInput {
-  options?: SearchOptions;
+
+interface QueryFnInput<T> {
+  options?: Omit<SearchOptions, "attributes">;
+  attributes?: Array<keyof Partial<T>> | "*";
   controls?: Control | Control[];
   base?: string;
 }
-
 interface AddFnInput<T> {
   entry: {
     [key in keyof Partial<T>]: string | string[];
@@ -129,14 +130,22 @@ export class Client {
   }
 
   /** @description raw search to provided full flexibility */
-  public async query({ options, controls, base }: QueryFnInput) {
+  public async query<T = any>({
+    options,
+    controls,
+    base,
+    attributes,
+  }: QueryFnInput<T>) {
     this.logger?.trace("query()");
     await this.connect();
 
     const data = await search({
       client: this.client,
       base: base ?? this.config.baseDN,
-      options,
+      options: {
+        ...options,
+        attributes: attributes as string[],
+      },
       controls,
     });
     return data;
@@ -146,18 +155,22 @@ export class Client {
    *
    * // TODO: add Generic type for return data
    */
-  public async queryAttributes({
+  public async queryAttributes<T = any>({
     options,
+    attributes,
     controls,
     base,
-  }: QueryFnInput): Promise<SearchEntryObject[]> {
+  }: QueryFnInput<T>): Promise<SearchEntryObject[]> {
     this.logger?.trace("queryAttributes()");
     await this.connect();
 
     const data = await search({
       client: this.client,
       base: base ?? this.config.baseDN,
-      options,
+      options: {
+        ...options,
+        attributes: attributes as string[],
+      },
       controls,
     });
     return data.map((entry) => entry.object);

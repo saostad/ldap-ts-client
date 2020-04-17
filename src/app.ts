@@ -61,14 +61,15 @@ import { User } from "./generated/interfaces/User";
   // });
   // console.log(`File: app.ts,`, `Line: 22 => `, compared);
 
-  // const data = await client.queryAttributes({
-  //   options: {
-  //     attributes: ["*"],
-  //     filter: "(&(objectClass=organizationalPerson)(cn=test*))",
-  //     scope: "sub",
-  //   },
-  // });
-  // console.log(`File: app.ts,`, `Line: 17 => `, data[0]);
+  const data = await client.queryAttributes<User>({
+    attributes: ["cn"],
+    options: {
+      filter: "(&(objectClass=user)(cn=*))",
+      scope: "sub",
+      paged: true,
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 17 => `, data.length);
 
   await client.unbind();
 })();
