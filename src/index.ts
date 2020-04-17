@@ -27,9 +27,9 @@ export interface ModifyChange<T = any> {
     [key in keyof Partial<T>]: any;
   };
 }
-interface ModifyFnInput {
+interface ModifyFnInput<T> {
   dn: string;
-  changes: ModifyChange[];
+  changes: ModifyChange<T>[];
   controls?: any;
 }
 interface QueryFnInput {
@@ -38,19 +38,22 @@ interface QueryFnInput {
   base?: string;
 }
 
-interface AddEntry<T> {
-  [key: string]: string | string[];
-}
-interface AddFnInput<T = any> {
-  entry: AddEntry<T>;
+interface AddFnInput<T> {
+  entry: {
+    [key in keyof Partial<T>]: string | string[];
+  };
   dn: string;
   controls?: any;
 }
 interface CompareFnInput<T = any> {
   dn: string;
   controls?: any;
-  attribute: keyof Partial<T>;
-  value: string;
+  /** attribute to compare
+   * - Note: it just use first property, no matter how many property gets
+   */
+  field: {
+    [key in keyof Partial<T>]: string;
+  };
 }
 interface DelFnInput {
   dn: string;
@@ -162,7 +165,11 @@ export class Client {
   /** Performs an add operation against the LDAP server.
    * @description Allows you to add an entry (which is just a plain JS object)
    */
-  public async add({ entry, dn, controls }: AddFnInput): Promise<boolean> {
+  public async add<T = any>({
+    entry,
+    dn,
+    controls,
+  }: AddFnInput<T>): Promise<boolean> {
     this.logger?.trace("add()");
     await this.connect();
     return new Promise((resolve, reject) => {
@@ -185,15 +192,15 @@ export class Client {
   }
 
   /** Performs an LDAP compare operation with the given attribute and value against the entry referenced by dn. */
-  public async compare({
+  public async compare<T = any>({
     dn,
     controls,
-    attribute,
-    value,
-  }: CompareFnInput): Promise<boolean | undefined> {
+    field,
+  }: CompareFnInput<T>): Promise<boolean | undefined> {
     this.logger?.trace("compare()");
     await this.connect();
     return new Promise((resolve, reject) => {
+      const [attribute, value] = Object.entries<string>(field)[0];
       if (controls) {
         this.client.compare(
           dn,
@@ -319,11 +326,11 @@ export class Client {
 
   /** Performs an LDAP modify operation against the existing LDAP entity. This API requires you to pass in a Change object.
    */
-  public async modify({
+  public async modify<T = any>({
     dn,
     changes,
     controls,
-  }: ModifyFnInput): Promise<boolean> {
+  }: ModifyFnInput<T>): Promise<boolean> {
     this.logger?.trace("modify()");
     await this.connect();
     return new Promise((resolve, reject) => {

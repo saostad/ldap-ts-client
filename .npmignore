@@ -2,3 +2,6 @@
 .env
 *.log
 docs
+generated
+src/generated
+dist/generated

@@ -4,6 +4,10 @@
   "mode": "modules",
   "out": "docs",
   "entryPoint": "index",
-  "exclude": ["**/*+(test|.spec|.e2e).ts", "./src/app.ts"],
+  "exclude": [
+    "**/*+(test|.spec|.e2e).ts",
+    "./src/app.ts",
+    "./src/generated/**/*.*"
+  ],
   "readme": "./README.md"
 }
