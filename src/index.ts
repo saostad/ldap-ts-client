@@ -2,15 +2,16 @@ import ldap, { SearchOptions, Control, SearchEntryObject } from "ldapjs";
 import type { Logger } from "pino";
 import { search } from "./services/search";
 
-export interface IClientConfig extends ldap.ClientOptions {
+export interface IClientConfig
+  extends Omit<ldap.ClientOptions, "url" | "bindDN"> {
   /**Password to connect to AD */
-  secret: string;
+  pass: string;
   /**User to connect to AD */
-  bindDN: string;
+  user: string;
   /**Root of tree for search */
   baseDN: string;
   /** Domain name with format: ldap://{domain.com} */
-  url: string;
+  ldapServerUrl: string;
   /**instance of pino logger */
   logger?: Logger;
 }
@@ -82,7 +83,7 @@ export class Client {
     this.config = config;
     this.baseDN = config.baseDN;
     this.client = ldap.createClient({
-      ...this.config,
+      url: config.ldapServerUrl,
       log: this.config.logger,
     });
   }
@@ -96,7 +97,7 @@ export class Client {
   public async bind(): Promise<ldap.Client> {
     this.logger?.trace("bind()");
     return new Promise((resolve, reject) => {
-      this.client.bind(this.config.bindDN, this.config.secret, (err) => {
+      this.client.bind(this.config.user, this.config.pass, (err) => {
         if (err) {
           reject(err);
         }

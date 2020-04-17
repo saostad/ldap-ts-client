@@ -5,9 +5,9 @@ import { User } from "./generated/interfaces/User";
 
 (async () => {
   const options: IClientConfig = {
-    url: process.env.AD_URI ?? "",
-    bindDN: process.env.AD_USER ?? "",
-    secret: process.env.AD_Pass ?? "",
+    ldapServerUrl: process.env.AD_URI ?? "",
+    user: process.env.AD_USER ?? "",
+    pass: process.env.AD_Pass ?? "",
     baseDN: "DC=ki,DC=local",
   };
   const client = new Client(options);
