@@ -1,18 +1,18 @@
 import ldap, { SearchOptions, Control, SearchEntryObject } from "ldapjs";
-import type { Logger } from "pino";
+import type { Logger } from "fast-node-logger";
 import { search } from "./services/search";
 
 export interface IClientConfig
   extends Omit<ldap.ClientOptions, "url" | "bindDN"> {
-  /**Password to connect to AD */
+  /** Password to connect to AD */
   pass: string;
-  /**User to connect to AD */
+  /** User to connect to AD */
   user: string;
-  /**Root of tree for search */
+  /** Root of tree for search */
   baseDN: string;
   /** Domain name with format: ldap://{domain.com} */
   ldapServerUrl: string;
-  /**instance of pino logger */
+  /** instance of pino logger */
   logger?: Logger;
 }
 
@@ -33,7 +33,6 @@ interface ModifyAttributeFnInput<T> {
   changes: ModifyChange<T>[];
   controls?: any;
 }
-
 interface QueryFnInput<T> {
   options?: Omit<SearchOptions, "attributes">;
   attributes?: Array<keyof Partial<T>> | "*";
@@ -83,7 +82,8 @@ export class Client {
     this.config = config;
     this.baseDN = config.baseDN;
     this.client = ldap.createClient({
-      url: config.ldapServerUrl,
+      ...this.config,
+      url: this.config.ldapServerUrl,
       log: this.config.logger,
     });
   }
@@ -97,7 +97,23 @@ export class Client {
   public async bind(): Promise<ldap.Client> {
     this.logger?.trace("bind()");
     return new Promise((resolve, reject) => {
-      this.client.bind(this.config.user, this.config.pass, (err) => {
+      if (this.client) {
+        this.client.destroy((err: any) => {
+          reject(err);
+        });
+      }
+
+      this.client = ldap.createClient({
+        ...this.config,
+        url: this.config.ldapServerUrl,
+        log: this.config.logger,
+      });
+
+      this.client.on("connectError", (err) => {
+        reject(err);
+      });
+
+      this.client.bind(this.config.user, this.config.pass, (err, result) => {
         if (err) {
           reject(err);
         }
@@ -123,7 +139,7 @@ export class Client {
 
   private async connect() {
     this.logger?.trace("connect()");
-    if (this.client && this.client.connected) {
+    if (this.client?.connected) {
       return this.client;
     }
     const client = await this.bind();

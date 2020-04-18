@@ -9,7 +9,32 @@ import { User } from "./generated/interfaces/User";
     user: process.env.AD_USER ?? "",
     pass: process.env.AD_Pass ?? "",
     baseDN: "DC=ki,DC=local",
+    queueDisable: false,
   };
+  const client1 = new Client(options);
+  const data1 = await client1.queryAttributes<User>({
+    attributes: ["cn"],
+    options: {
+      filter: "(&(objectClass=user)(cn=*))",
+      scope: "sub",
+      paged: true,
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 17 => `, data1.length);
+  client1.unbind();
+
+  const client2 = new Client(options);
+  const data2 = await client2.queryAttributes<User>({
+    attributes: ["cn"],
+    options: {
+      filter: "(&(objectClass=user)(cn=*))",
+      scope: "sub",
+      paged: true,
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 17 => `, data2.length);
+  client2.unbind();
+
   const client = new Client(options);
 
   // const delResult = await client.del({
