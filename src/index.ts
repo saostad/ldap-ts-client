@@ -2,6 +2,8 @@ import ldap, { SearchOptions, Control, SearchEntryObject } from "ldapjs";
 import type { Logger } from "fast-node-logger";
 import { search } from "./services/search";
 
+export type { SearchEntryObject } from "ldapjs";
+
 export interface IClientConfig
   extends Omit<ldap.ClientOptions, "url" | "bindDN"> {
   /** Password to connect to AD */
