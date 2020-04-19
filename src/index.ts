@@ -35,8 +35,12 @@ interface ModifyAttributeFnInput<T> {
 }
 interface QueryFnInput<T> {
   options?: Omit<SearchOptions, "attributes">;
-  attributes?: Array<keyof Partial<T>> | "*";
+  /** select return attributes
+   * - ["*"] for all available fields
+   */
+  attributes?: Array<keyof Partial<T>> | ["*"];
   controls?: Control | Control[];
+  /** base dn to search */
   base?: string;
 }
 interface AddFnInput<T> {

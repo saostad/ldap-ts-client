@@ -25,7 +25,7 @@ import { User } from "./generated/interfaces/User";
 
   const client2 = new Client(options);
   const data2 = await client2.queryAttributes<User>({
-    attributes: ["cn"],
+    attributes: ["*"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
       scope: "sub",
