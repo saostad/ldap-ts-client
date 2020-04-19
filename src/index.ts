@@ -38,7 +38,7 @@ interface QueryFnInput<T> {
   /** select return attributes
    * - ["*"] for all available fields
    */
-  attributes?: Array<keyof Partial<T>> | ["*"];
+  attributes?: Array<keyof Partial<T> | "*">;
   controls?: Control | Control[];
   /** base dn to search */
   base?: string;
