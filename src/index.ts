@@ -88,9 +88,14 @@ export class Client {
     this.config = config;
     this.baseDN = config.baseDN;
 
+    let reconnect: any = true;
+    if (typeof config.reconnect !== "undefined") {
+      reconnect = config.reconnect;
+    }
+
     this.client = ldap.createClient({
       ...this.config,
-      reconnect: config.reconnect ?? true,
+      reconnect,
       url: this.config.ldapServerUrl,
       log: this.config.logger,
     });
