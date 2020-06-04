@@ -9,7 +9,6 @@ import { User } from "./generated/interfaces/User";
     user: process.env.AD_USER ?? "",
     pass: process.env.AD_Pass ?? "",
     baseDN: "DC=ki,DC=local",
-    queueDisable: false,
   };
   const client = new Client(options);
 

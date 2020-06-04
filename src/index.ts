@@ -87,8 +87,10 @@ export class Client {
   constructor(config: IClientConfig) {
     this.config = config;
     this.baseDN = config.baseDN;
+
     this.client = ldap.createClient({
       ...this.config,
+      reconnect: config.reconnect ?? true,
       url: this.config.ldapServerUrl,
       log: this.config.logger,
     });
