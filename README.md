@@ -21,7 +21,7 @@ const config: IClientConfig = {
 
 const client = new LdapClient(config);
 
-// do something with functionalities
+// do something with client!
 
 // always free-Up after you done the job!
 client.unbind();

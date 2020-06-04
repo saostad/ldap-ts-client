@@ -11,8 +11,9 @@ import { User } from "./generated/interfaces/User";
     baseDN: "DC=ki,DC=local",
     queueDisable: false,
   };
-  const client1 = new Client(options);
-  const data1 = await client1.queryAttributes<User>({
+  const client = new Client(options);
+
+  const data1 = await client.queryAttributes<User>({
     attributes: ["cn"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
@@ -21,10 +22,8 @@ import { User } from "./generated/interfaces/User";
     },
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data1.length);
-  client1.unbind();
 
-  const client2 = new Client(options);
-  const data2 = await client2.queryAttributes<User>({
+  const data2 = await client.queryAttributes<User>({
     attributes: ["*", "USNIntersite"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
@@ -33,9 +32,6 @@ import { User } from "./generated/interfaces/User";
     },
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data2.length);
-  client2.unbind();
-
-  const client = new Client(options);
 
   // const delResult = await client.del({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
@@ -96,5 +92,5 @@ import { User } from "./generated/interfaces/User";
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data.length);
 
-  await client.unbind();
+  client.unbind();
 })();
