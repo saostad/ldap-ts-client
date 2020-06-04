@@ -95,7 +95,7 @@ export class Client {
   }
 
   /** connection status */
-  public isConnected = (): boolean => {
+  public getConnectionStatus = (): boolean => {
     return this.client.connected;
   };
 
@@ -129,7 +129,7 @@ export class Client {
     });
   }
 
-  /** unbind connection and free-up memory */
+  /** unbind connection */
   public async unbind(): Promise<void> {
     this.logger?.trace("unbind()");
     return new Promise((resolve, reject) => {
@@ -143,6 +143,16 @@ export class Client {
     });
   }
 
+  /** unbind the connection and don't allow it to connect again. */
+  public async destroy(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.client.destroy((err: any) => {
+        reject(err);
+      });
+    });
+  }
+
+  /** bind to server if client is not already bound */
   private async connect() {
     this.logger?.trace("connect()");
     if (this.client?.connected) {
