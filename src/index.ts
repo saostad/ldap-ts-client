@@ -244,7 +244,7 @@ export class Client {
     });
   }
 
-  /** Performs an LDAP compare operation with the given attribute and value against the entry referenced by dn. */
+  /** Performs a LDAP compare operation with the given attribute and value against the entry referenced by dn. */
   public async compare<T = any>({
     dn,
     controls,
@@ -305,7 +305,7 @@ export class Client {
   }
 
   /**
-   * @description Performs an LDAP extended operation against an LDAP server.
+   * @description Performs an extended operation against LDAP server.
    * @example
    * const {value} = await client.extendedOp('1.3.6.1.4.1.4203.1.11.3');
    * console.log('whois: ' + value);
@@ -345,7 +345,7 @@ export class Client {
   }
 
   /**
-   * @description Performs an LDAP modifyDN (rename) operation against an entry in the LDAP server. A couple points with this client API:
+   * @description Performs a LDAP modifyDN (rename) operation against an entry in the LDAP server. A couple points with this client API:
    * - There is no ability to set "keep old dn." It's always going to flag the old dn to be purged.
    * - The client code will automatically figure out if the request is a "new superior" request ("new superior" means move to a different part of the tree, as opposed to just renaming the leaf).
    */
@@ -377,7 +377,7 @@ export class Client {
     });
   }
 
-  /** Performs an LDAP modify operation against attributes of the existing LDAP entity. This API requires you to pass in a Change object.
+  /** Performs a LDAP modify operation against attributes of the existing LDAP entity. This API requires you to pass in a Change object.
    */
   public async modifyAttribute<T = any>({
     dn,
