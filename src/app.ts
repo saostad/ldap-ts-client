@@ -4,15 +4,16 @@ import { Client, IClientConfig } from "./index";
 import { User } from "./generated/interfaces/User";
 
 (async () => {
+  const base = "DC=ki,DC=local";
   const options: IClientConfig = {
     ldapServerUrl: process.env.AD_URI ?? "",
     user: process.env.AD_USER ?? "",
     pass: process.env.AD_Pass ?? "",
-    baseDN: "DC=ki,DC=local",
   };
   const client = new Client(options);
 
   const data1 = await client.queryAttributes<User>({
+    base,
     attributes: ["cn"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
@@ -23,6 +24,7 @@ import { User } from "./generated/interfaces/User";
   console.log(`File: app.ts,`, `Line: 17 => `, data1.length);
 
   const data2 = await client.queryAttributes<User>({
+    base,
     attributes: ["*", "USNIntersite"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
@@ -30,7 +32,7 @@ import { User } from "./generated/interfaces/User";
       paged: true,
     },
   });
-  console.log(`File: app.ts,`, `Line: 17 => `, data2.length);
+  console.log(`File: app.ts,`, `Line: 35 => `, data2.length);
 
   // const delResult = await client.del({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
@@ -82,6 +84,7 @@ import { User } from "./generated/interfaces/User";
   // console.log(`File: app.ts,`, `Line: 22 => `, compared);
 
   const data = await client.queryAttributes<User>({
+    base,
     attributes: ["cn"],
     options: {
       filter: "(&(objectClass=user)(cn=*))",
@@ -89,7 +92,7 @@ import { User } from "./generated/interfaces/User";
       paged: true,
     },
   });
-  console.log(`File: app.ts,`, `Line: 17 => `, data.length);
+  console.log(`File: app.ts,`, `Line: 95 => `, data.length);
 
   client.unbind();
 })();

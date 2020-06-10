@@ -6,14 +6,12 @@ export type { SearchEntryObject } from "ldapjs";
 
 export interface IClientConfig
   extends Omit<ldap.ClientOptions, "url" | "bindDN"> {
-  /** Password to connect to AD */
-  pass: string;
-  /** User to connect to AD */
-  user: string;
-  /** Root of tree for search */
-  baseDN: string;
   /** Domain name with format: ldap://{domain.com} */
   ldapServerUrl: string;
+  /** Password to connect to AD */
+  pass?: string;
+  /** User to connect to AD */
+  user?: string;
   /** instance of pino logger */
   logger?: Logger;
 }
@@ -24,18 +22,18 @@ export interface IClientConfig
  * - delete: Deletes the attribute (and all values) referenced in modification.
 
 modification is just a plain old JS object with the values you want. */
-export interface ModifyChange<T = any> {
+export type ModifyChange<T = any> = {
   operation: "add" | "delete" | "replace";
   modification: {
     [key in keyof Partial<T>]: any;
   };
-}
-interface ModifyAttributeFnInput<T> {
+};
+type ModifyAttributeFnInput<T> = {
   dn: string;
   changes: ModifyChange<T>[];
   controls?: any;
-}
-interface QueryFnInput<T> {
+};
+type QueryFnInput<T> = {
   options?: Omit<SearchOptions, "attributes">;
   /** select return attributes
    * - ["*"] for all available fields
@@ -43,16 +41,16 @@ interface QueryFnInput<T> {
   attributes?: Array<keyof Partial<T> | "*">;
   controls?: Control | Control[];
   /** base dn to search */
-  base?: string;
-}
-interface AddFnInput<T> {
+  base: string;
+};
+type AddFnInput<T> = {
   entry: {
     [key in keyof Partial<T>]: string | string[];
   };
   dn: string;
   controls?: any;
-}
-interface CompareFnInput<T = any> {
+};
+type CompareFnInput<T = any> = {
   dn: string;
   controls?: any;
   /** attribute to compare
@@ -61,32 +59,34 @@ interface CompareFnInput<T = any> {
   field: {
     [key in keyof Partial<T>]: string;
   };
-}
-interface DelFnInput {
+};
+type DelFnInput = {
   dn: string;
   controls?: any;
-}
-interface ExtendedOpFnInput {
+};
+type ExtendedOpFnInput = {
   oid: string;
   value: string;
   controls?: any;
-}
-interface ModifyDnFnInput {
+};
+type ModifyDnFnInput = {
   dn: string;
   newDn: string;
   controls?: any;
-}
+};
+type BindFnInput = {
+  user?: string;
+  pass?: string;
+};
 
 /** @description this is a class to provide low level promise base interaction with ldap server */
 export class Client {
   private config: IClientConfig;
   private client!: ldap.Client;
   private logger?: Logger;
-  public baseDN: string;
 
   constructor(config: IClientConfig) {
     this.config = config;
-    this.baseDN = config.baseDN;
 
     let reconnect: any = true;
     if (typeof config.reconnect !== "undefined") {
@@ -107,7 +107,7 @@ export class Client {
   };
 
   /** @return a connected ldap client that is useful for use flexibility of [ldap.js](http://ldapjs.org/) directly. */
-  public async bind(): Promise<ldap.Client> {
+  public async bind(input?: BindFnInput): Promise<ldap.Client> {
     this.logger?.trace("bind()");
     return new Promise((resolve, reject) => {
       if (this.client) {
@@ -126,13 +126,22 @@ export class Client {
         reject(err);
       });
 
-      this.client.bind(this.config.user, this.config.pass, (err, result) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(this.client);
-      });
+      const user = input?.user ?? this.config.user;
+      const pass = input?.pass ?? this.config.pass;
+      if (user && pass) {
+        this.client.bind(user, pass, (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(this.client);
+        });
+      } else {
+        reject(
+          new Error(
+            `user or pass not provided! you can provide in either bind function or when create new instance of client.`,
+          ),
+        );
+      }
     });
   }
 
@@ -144,7 +153,6 @@ export class Client {
         if (err) {
           reject(err);
         }
-
         resolve();
       });
     });
@@ -156,6 +164,7 @@ export class Client {
       this.client.destroy((err: any) => {
         reject(err);
       });
+      resolve();
     });
   }
 
@@ -181,7 +190,7 @@ export class Client {
 
     const data = await search({
       client: this.client,
-      base: base ?? this.config.baseDN,
+      base,
       options: {
         ...options,
         attributes: attributes as string[],
@@ -206,7 +215,7 @@ export class Client {
 
     const data = await search({
       client: this.client,
-      base: base ?? this.config.baseDN,
+      base,
       options: {
         ...options,
         attributes: attributes as string[],
