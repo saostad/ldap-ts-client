@@ -78,13 +78,13 @@
 				<ul>
 					<li><code>npm i ldap-ts-client</code></li>
 				</ul>
-				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { IClientConfig, LdapClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"ldap-ts-client"</span>;
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { IClientConfig, LdapClient } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;ldap-ts-client&quot;</span>;
 
 <span class="hljs-keyword">const</span> config: IClientConfig = {
-  url: <span class="hljs-string">"ldap://Domain.com"</span> <span class="hljs-comment">/** Domain name here */</span>,
-  bindDN: <span class="hljs-string">"{USER_NAME}"</span> <span class="hljs-comment">/** user name to connect to AD server */</span>,
-  secret: <span class="hljs-string">"{PASSWORD}"</span> <span class="hljs-comment">/** password for account */</span>,
-  baseDN: <span class="hljs-string">"{ROOT_OF_TREE}"</span> <span class="hljs-comment">/** root of tree that want to query */</span>,
+  <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;ldap://Domain.com&quot;</span> <span class="hljs-comment">/** Domain name here */</span>,
+  <span class="hljs-attr">bindDN</span>: <span class="hljs-string">&quot;{USER_NAME}&quot;</span> <span class="hljs-comment">/** user name to connect to AD server */</span>,
+  <span class="hljs-attr">secret</span>: <span class="hljs-string">&quot;{PASSWORD}&quot;</span> <span class="hljs-comment">/** password for account */</span>,
+  <span class="hljs-attr">baseDN</span>: <span class="hljs-string">&quot;{ROOT_OF_TREE}&quot;</span> <span class="hljs-comment">/** root of tree that want to query */</span>,
 };
 
 <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> LdapClient(config);
@@ -105,12 +105,12 @@ client.unbind();</code></pre>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">/** get displayName of all users */</span>
 <span class="hljs-keyword">const</span> users = <span class="hljs-keyword">await</span> client.queryAttributes({
-  attributes: [<span class="hljs-string">"displayName"</span>],
-  options: {
-    filter:
-      <span class="hljs-string">"(&amp;(|(objectClass=user)(objectClass=person))(!(objectClass=computer))(!(objectClass=group)))"</span>,
-    scope: <span class="hljs-string">"sub"</span>,
-    paged: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">attributes</span>: [<span class="hljs-string">&quot;displayName&quot;</span>],
+  <span class="hljs-attr">options</span>: {
+    <span class="hljs-attr">filter</span>:
+      <span class="hljs-string">&quot;(&amp;(|(objectClass=user)(objectClass=person))(!(objectClass=computer))(!(objectClass=group)))&quot;</span>,
+    <span class="hljs-attr">scope</span>: <span class="hljs-string">&quot;sub&quot;</span>,
+    <span class="hljs-attr">paged</span>: <span class="hljs-literal">true</span>,
   },
 });
 
@@ -124,11 +124,11 @@ client.unbind();</code></pre>
 				</a>
 				<pre><code class="language-ts"><span class="hljs-comment">/** get displayName and distinguished name  of empty groups */</span>
 <span class="hljs-keyword">const</span> groups = <span class="hljs-keyword">await</span> client.query({
-  attributes: [<span class="hljs-string">"displayName"</span>, <span class="hljs-string">"dn"</span>],
-  options: {
-    filter: <span class="hljs-string">"(&amp;(objectClass=group)(!(member=*)))"</span>,
-    scope: <span class="hljs-string">"sub"</span>,
-    paged: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">attributes</span>: [<span class="hljs-string">&quot;displayName&quot;</span>, <span class="hljs-string">&quot;dn&quot;</span>],
+  <span class="hljs-attr">options</span>: {
+    <span class="hljs-attr">filter</span>: <span class="hljs-string">&quot;(&amp;(objectClass=group)(!(member=*)))&quot;</span>,
+    <span class="hljs-attr">scope</span>: <span class="hljs-string">&quot;sub&quot;</span>,
+    <span class="hljs-attr">paged</span>: <span class="hljs-literal">true</span>,
   },
 });
 
@@ -141,13 +141,13 @@ client.unbind();</code></pre>
 					<h4>NOTICE: lpad.js is using node EventEmitters not ES6 Promises</h4>
 				</a>
 				<pre><code class="language-ts">client.bind().then(<span class="hljs-function">(<span class="hljs-params">client</span>) =&gt;</span> {
-  client.search(<span class="hljs-keyword">this</span>.config.baseDN, opts, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
+  client.search(<span class="hljs-built_in">this</span>.config.baseDN, opts, <span class="hljs-function">(<span class="hljs-params">err, res</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (err) {
       reject(err);
     }
-    res.on(<span class="hljs-string">"searchEntry"</span>, <span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> {});
-    res.on(<span class="hljs-string">"error"</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {});
-    res.on(<span class="hljs-string">"end"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result</span>) </span>{
+    res.on(<span class="hljs-string">&quot;searchEntry&quot;</span>, <span class="hljs-function">(<span class="hljs-params">entry</span>) =&gt;</span> {});
+    res.on(<span class="hljs-string">&quot;error&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {});
+    res.on(<span class="hljs-string">&quot;end&quot;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">result</span>) </span>{
       client.unbind();
     });
   });
@@ -167,13 +167,19 @@ client.unbind();</code></pre>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_index_.html">&quot;index&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-module tsd-is-external">
 						<a href="modules/_services_search_.html">&quot;services/search&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class=" tsd-kind-module tsd-is-external">
 						<a href="modules/_typings_general_types_.html">&quot;typings/general-<wbr>types&quot;</a>
 					</li>
 				</ul>
@@ -190,7 +196,6 @@ client.unbind();</code></pre>
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
@@ -208,6 +213,5 @@ client.unbind();</code></pre>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

@@ -23,16 +23,16 @@ import { User } from "./generated/interfaces/User";
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data1.length);
 
-  const data2 = await client.queryAttributes<User>({
-    base,
-    attributes: ["*", "USNIntersite"],
-    options: {
-      filter: "(&(objectClass=user)(cn=*))",
-      scope: "sub",
-      paged: true,
-    },
-  });
-  console.log(`File: app.ts,`, `Line: 35 => `, data2.length);
+  // const data2 = await client.queryAttributes<User>({
+  //   base,
+  //   attributes: ["*", "USNIntersite"],
+  //   options: {
+  //     filter: "(&(objectClass=user)(cn=*))",
+  //     scope: "sub",
+  //     paged: true,
+  //   },
+  // });
+  // console.log(`File: app.ts,`, `Line: 35 => `, data2.length);
 
   // const delResult = await client.del({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
@@ -83,16 +83,16 @@ import { User } from "./generated/interfaces/User";
   // });
   // console.log(`File: app.ts,`, `Line: 22 => `, compared);
 
-  const data = await client.queryAttributes<User>({
-    base,
-    attributes: ["cn"],
-    options: {
-      filter: "(&(objectClass=user)(cn=*))",
-      scope: "sub",
-      paged: true,
-    },
-  });
-  console.log(`File: app.ts,`, `Line: 95 => `, data.length);
+  // const data = await client.queryAttributes<User>({
+  //   base,
+  //   attributes: ["cn"],
+  //   options: {
+  //     filter: "(&(objectClass=user)(cn=*))",
+  //     scope: "sub",
+  //     paged: true,
+  //   },
+  // });
+  // console.log(`File: app.ts,`, `Line: 95 => `, data.length);
 
   client.unbind();
 })();

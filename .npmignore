@@ -3,5 +3,5 @@
 *.log
 docs
 generated
-src/generated
+src
 dist/generated
