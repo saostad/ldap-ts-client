@@ -1,6 +1,6 @@
 {
   "name": "ldap-ts-client",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "Type-safe LDAP client written in typescript",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   "scripts": {
     "format": "prettier --check \"src/**/*.ts\" --write",
     "lint": "eslint --ext \".ts,.js\" src --quiet",
-    "gen-docs": "typedoc",
+    "gen-docs": "typedoc src/index.ts",
     "postgen-docs": "node ./config/github.js",
     "tag": "node ./config/tag.js",
     "auto-changelog": "auto-changelog --hide-credit --breaking-pattern \"breaking:\"",
@@ -41,26 +41,26 @@
     "delay": "1000"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.18",
-    "@types/node": "^14.14.12",
-    "@typescript-eslint/eslint-plugin": "^4.9.1",
-    "@typescript-eslint/parser": "^4.9.1",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.31",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "auto-changelog": "^2.2.1",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
-    "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-prettier": "^3.2.0",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
-    "ts-jest": "^26.4.4",
-    "typedoc": "^0.19.2",
-    "typescript": "^4.1.2"
+    "ts-jest": "^26.5.2",
+    "typedoc": "^0.20.28",
+    "typescript": "^4.2.2"
   },
   "dependencies": {
     "@types/ldapjs": "^1.0.9",
-    "fast-node-logger": "^1.4.9",
-    "ldapjs": "^2.2.3"
+    "fast-node-logger": "^1.4.12",
+    "ldapjs": "^2.2.4"
   }
 }
