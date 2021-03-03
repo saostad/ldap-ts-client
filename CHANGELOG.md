@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.14.3](https://github.com/saostad/ldap-ts-client/compare/v0.14.2...v0.14.3)
+
+> 2 March 2021
+
+- pkg: updated [`772a8fe`](https://github.com/saostad/ldap-ts-client/commit/772a8feecf52b49461604bc08c5121ca131022b7)
+- doc: change log [`e28e217`](https://github.com/saostad/ldap-ts-client/commit/e28e217ce4810a80b6a1902afc66ac73ac0f0461)
+
 #### [v0.14.2](https://github.com/saostad/ldap-ts-client/compare/v0.14.0...v0.14.2)
 
 > 10 December 2020
