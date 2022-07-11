@@ -23,27 +23,27 @@ import { User } from "./generated/interfaces/User";
   });
   console.log(`File: app.ts,`, `Line: 17 => `, data1.length);
 
-  // const data2 = await client.queryAttributes<User>({
-  //   base,
-  //   attributes: ["*", "USNIntersite"],
-  //   options: {
-  //     filter: "(&(objectClass=user)(cn=*))",
-  //     scope: "sub",
-  //     paged: true,
-  //   },
-  // });
-  // console.log(`File: app.ts,`, `Line: 35 => `, data2.length);
+  const data2 = await client.queryAttributes<User>({
+    base,
+    attributes: ["*", "USNIntersite"],
+    options: {
+      filter: "(&(objectClass=user)(cn=*))",
+      scope: "sub",
+      paged: true,
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 35 => `, data2.length);
 
   // const delResult = await client.del({
   //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
   // });
   // console.log(`File: app.ts,`, `Line: 18 => `, delResult);
 
-  // const { value } = await client.extendedOp({
-  //   oid: "1.3.6.1.4.1.4203.1.11.3",
-  //   value: "",
-  // });
-  // console.log(`File: app.ts,`, `Line: 18 => `, value);
+  const { value } = await client.extendedOp({
+    oid: "1.3.6.1.4.1.4203.1.11.3",
+    value: "",
+  });
+  console.log(`File: app.ts,`, `Line: 18 => `, value);
 
   // const modifyDnResult = await client.modifyDn({
   //   dn: "CN=testUser3,OU=Users,OU=KII,DC=ki,DC=local",
@@ -75,24 +75,24 @@ import { User } from "./generated/interfaces/User";
   // });
   // console.log(`File: app.ts,`, `Line: 53 => `, modifyAttributeResult);
 
-  // const compared = await client.compare<User>({
-  //   dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
-  //   field: {
-  //     cn: "testUser2",
-  //   },
-  // });
-  // console.log(`File: app.ts,`, `Line: 22 => `, compared);
+  const compared = await client.compare<User>({
+    dn: "CN=testUser2,OU=Users,OU=KII,DC=ki,DC=local",
+    field: {
+      cn: "testUser2",
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 22 => `, compared);
 
-  // const data = await client.queryAttributes<User>({
-  //   base,
-  //   attributes: ["cn"],
-  //   options: {
-  //     filter: "(&(objectClass=user)(cn=*))",
-  //     scope: "sub",
-  //     paged: true,
-  //   },
-  // });
-  // console.log(`File: app.ts,`, `Line: 95 => `, data.length);
+  const data = await client.queryAttributes<User>({
+    base,
+    attributes: ["cn"],
+    options: {
+      filter: "(&(objectClass=user)(cn=*))",
+      scope: "sub",
+      paged: true,
+    },
+  });
+  console.log(`File: app.ts,`, `Line: 95 => `, data.length);
 
   client.unbind();
 })();
