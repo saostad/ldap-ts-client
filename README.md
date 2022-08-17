@@ -29,7 +29,7 @@ client.unbind();
 
 ## API Documentation
 
-for full API documentation look at [API Website](https://saostad.github.io/ldap-ts-client/classes/_index_.client.html)
+for full API documentation look at [API Website](https://saostad.github.io/ldap-ts-client/).
 
 ## functionalities:
 

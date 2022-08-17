@@ -1,6 +1,6 @@
 {
   "name": "ldap-ts-client",
-  "version": "0.14.7",
+  "version": "0.14.8",
   "description": "Type-safe LDAP client written in typescript",
   "repository": {
     "type": "git",
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@types/ldapjs": "^2.2.3",
-    "fast-node-logger": "^3.0.2",
+    "fast-node-logger": "^3.0.3",
     "ldapjs": "^2.3.3"
   }
 }
