@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [v0.14.8](https://github.com/saostad/ldap-ts-client/compare/v0.14.7...v0.14.8)
+
+> 17 August 2022
+
+- pkg: updated [`42122fc`](https://github.com/saostad/ldap-ts-client/commit/42122fcb9eea3d0e5d9baec9d12001720512d99d)
+- doc: change log [`1cbfb14`](https://github.com/saostad/ldap-ts-client/commit/1cbfb144aa49dafd2c581230500d290a2b94ba36)
+
 #### [v0.14.7](https://github.com/saostad/ldap-ts-client/compare/v0.14.6...v0.14.7)
 
 > 16 August 2022
