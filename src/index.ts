@@ -125,6 +125,15 @@ export class Client {
       this.client.on("connectError", (err) => {
         reject(err);
       });
+      this.client.on("connectTimeout", (err) => {
+        reject(err);
+      });
+      this.client.on("connectRefused", (err) => {
+        reject(err);
+      });
+      this.client.on("error", (err) => {
+        reject(err);
+      });
 
       const user = input?.user ?? this.config.user;
       const pass = input?.pass ?? this.config.pass;
